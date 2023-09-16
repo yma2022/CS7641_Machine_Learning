@@ -1,0 +1,78 @@
+- [ ] Datasets
+    - [ ] Select two datasets
+    - [ ] Preprocess datasets
+    - [ ] Choose a performance metric (accuracy, error, precision or recall) for each dataset and justify choice
+    - [ ] Introduce each dataset and write why they are interesting, and brief description of the preprocessing
+- [ ] Talk about overall experimental methodology
+- [ ] Decision Trees (DT)
+    - [ ] Learning Curve plot and analysis
+        - [ ] Keep the optimal hyperparameter choice . Vary the training data set size , train models with data and plot the curves
+        - [ ] bias and variance / overfit and underfit analysis
+    - [ ] Validation curves for at least two hyperparameters
+        - [ ] Pruning is a required hyperparameter
+        - [ ] Vary hyperparameter of interest keeping all other optimal hyperparameters fixed and train the models and plot the curves 
+        - [ ] bias and variance / overfit and underfit analysis
+    - [ ] Add intermidate learning or validation curve to show suboptimal performance and analysis
+    - [ ] Link back results to some algorithmic behavior, hyperparameter interaction between the algorithm and input data, etc
+    - [ ] Document wall clock times
+    - [ ] Tune model to be optimal (GridSearch allowed)
+    - [ ] Analyze results isolated to other algoritms
+    - [ ] Compare and contrast results across algorithms and across datasets
+- [ ] Neural Networks (NN)
+    - [ ] Learning Curve plot and analysis
+        - [ ] X axis should be iterations or epoch - ie loss curve
+        - [ ] Keep the optimal hyperparameter choice . Vary the training data set size , train models with data and plot the curves
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Validation curves for at least two hyperparameters
+        - [ ] Hidden Layer Size is a required hyperparameter
+        - [ ] Vary hyperparameter of interest keeping all other optimal hyperparameters fixed and train the models and plot the curves 
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Add intermidate learning or validation curve to show suboptimal performance and analysis
+    - [ ] Link back results to some algorithmic behavior, hyperparameter interaction between the algorithm and input data, etc
+    - [ ] Document wall clock times
+    - [ ] Tune model to be optimal (GridSearch allowed)
+    - [ ] Analyze results isolated to other algoritms
+    - [ ] Compare and contrast results across algorithms and across datasets
+- [ ] Boosting
+    - [ ] Learning Curve plot and analysis
+        - [ ] Keep the optimal hyperparameter choice . Vary the training data set size , train models with data and plot the curves
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Validation curves for at least two hyperparameters
+        - [ ] \# of Weak Learners is a required hyperparameter
+        - [ ] Vary hyperparameter of interest keeping all other optimal hyperparameters fixed and train the models and plot the curves 
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Add intermidate learning or validation curve to show suboptimal performance and analysis
+    - [ ] Link back results to some algorithmic behavior, hyperparameter interaction between the algorithm and input data, etc
+    - [ ] Document wall clock times
+    - [ ] Tune model to be optimal (GridSearch allowed)
+    - [ ] Analyze results isolated to other algoritms
+    - [ ] Compare and contrast results across algorithms and across datasets
+- [ ] Support vector machines (SVM)
+    - [ ] Learning Curve plot and analysis
+        - [ ] Keep the optimal hyperparameter choice . Vary the training data set size , train models with data and plot the curves
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Validation curves for at least two hyperparameters
+        - [ ] Kernel Type is a required hyperparameter
+        - [ ] Vary hyperparameter of interest keeping all other optimal hyperparameters fixed and train the models and plot the curves 
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Add intermidate learning or validation curve to show suboptimal performance and analysis
+    - [ ] Link back results to some algorithmic behavior, hyperparameter interaction between the algorithm and input data, etc
+    - [ ] Document wall clock times
+    - [ ] Tune model to be optimal (GridSearch allowed)
+    - [ ] Analyze results isolated to other algoritms
+    - [ ] Compare and contrast results across algorithms and across datasets
+- [ ] K-Nearest Neighbor (kNN)
+    - [ ] Learning Curve plot and analysis
+        - [ ] Keep the optimal hyperparameter choice . Vary the training data set size , train models with data and plot the curves
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Validation curves for at least two hyperparameters
+        - [ ] K is a required hyperparameter
+        - [ ] Vary hyperparameter of interest keeping all other optimal hyperparameters fixed and train the models and plot the curves 
+        - [ ] Bias and variance / overfit and underfit analysis
+    - [ ] Add intermidate learning or validation curve to show suboptimal performance and analysis
+    - [ ] Link back results to some algorithmic behavior, hyperparameter interaction between the algorithm and input data, etc
+    - [ ] Document wall clock times
+    - [ ] Tune model to be optimal (GridSearch allowed)
+    - [ ] Analyze results isolated to other algoritms
+    - [ ] Compare and contrast results across algorithms and across datasets
+- [ ] Write solid conclusion
