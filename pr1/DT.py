@@ -7,12 +7,13 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import validation_curve
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import learning_curve
 from matplotlib import pyplot as plt
 
 
 class DecisionTree(object):
 
-    def __init__(self, verbose=False, max_depth=20, min_samples_leaf=3, min_samples_split=3, ccp_alpha=0.0):
+    def __init__(self, verbose=False, max_depth=30, min_samples_leaf=10, min_samples_split=5, ccp_alpha=5):
         """
         decision tree initialization
         """
@@ -21,54 +22,110 @@ class DecisionTree(object):
         self.min_samples_leaf = min_samples_leaf
         self.min_samples_split = min_samples_split
         self.ccp_alpha = ccp_alpha
+        self.clf = None
 
-    def build_tree(self, X_train, y_train):
+    def train(self, X_train, y_train):
         """
         build and train decision tree
         """
-        SEED = 21
-        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=.2, random_state=SEED)
-        unpruned = DecisionTreeClassifier(max_depth=None)
-        unpruned.fit(X_train, y_train)
+        clf_dt = DecisionTreeClassifier(random_state=42)
+        clf_dt.fit(X_train, y_train)
 
-        print("At depth:", unpruned.tree_.max_depth)
-        print("Decision Tree Accuracy on the Train set (without pruning): ", unpruned.score(X_train, y_train))
-        print("Decision Tree Accuracy on the Dev set(without pruning):", unpruned.score(X_val, y_val))
+        print("At depth:", clf_dt.tree_.max_depth)
+        print("Decision Tree Accuracy on the Train set: ", clf_dt.score(X_train, y_train))
+        
 
-        params = {'max_depth': range(1, self.max_depth),
-         'min_samples_split': range(2, self.min_samples_split),
-         'min_samples_leaf': range(1, self.min_samples_leaf)}
+        params = {'max_depth': np.arange(1, self.max_depth+1),
+         'min_samples_split': np.arange(2, self.min_samples_split+1),
+         'min_samples_leaf': np.arange(1, self.min_samples_leaf+1),
+         'ccp_alpha': np.linspace(0, 0.035, self.ccp_alpha)}
 
-        tree = DecisionTreeClassifier()
-        gcv = GridSearchCV(estimator=tree,param_grid=params)
+        gcv = GridSearchCV(estimator=clf_dt,param_grid=params)
         gcv.fit(X_train,y_train)
-        prepruned = gcv.best_estimator_
+        best_dt = gcv.best_estimator_
         print("Best parameters:", gcv.best_params_)
-        prepruned.fit(X_train, y_train)
-        print("At depth:", prepruned.tree_.max_depth)
-        print("Decision Tree Accuracy on the Train set (with prepruning): ", prepruned.score(X_train, y_train))
-        print("Decision Tree Accuracy on the Dev set(with prepruning):", prepruned.score(X_val, y_val))
+        best_dt.fit(X_train, y_train)
+        print("At depth:", best_dt.tree_.max_depth)
+        print("Decision Tree Accuracy on the Train set (with pruning): ", best_dt.score(X_train, y_train))
+        self.clf = best_dt
 
-
-        path = tree.cost_complexity_pruning_path(X_train, y_train)
-        ccp_alphas, impurities = path.ccp_alphas, path.impurities
-        print(ccp_alphas)
-
-        # For each alpha we will append our model to a list
-        trees = []
-        for ccp_alpha in ccp_alphas:
-            tree = DecisionTreeClassifier(random_state=0, ccp_alpha=ccp_alpha)
-            tree.fit(X_train, y_train)
-            trees.append(tree)
-
-        trees = trees[:-1]
-        ccp_alphas = ccp_alphas[:-1]
-        node_counts = [tree.tree_.node_count for tree in trees]
-        depth = [tree.tree_.max_depth for tree in trees]
         if self.verbose:
-            plt.scatter(ccp_alphas,node_counts)
-            plt.scatter(ccp_alphas,depth)
-            plt.plot(ccp_alphas,node_counts,label='no of nodes',drawstyle="steps-post")
-            plt.plot(ccp_alphas,depth,label='depth',drawstyle="steps-post")
-            plt.legend()
+            plt.figure()
+            plt.xlabel("Training examples")
+            plt.ylabel("Score")
+            train_sizes, train_scores, test_scores = learning_curve(clf_dt, X_train, y_train, cv=4, n_jobs=4, train_sizes=np.linspace(.1, 1.0, 5), verbose=0)
+            train_scores_mean = np.mean(train_scores, axis=1)
+            train_scores_std = np.std(train_scores, axis=1)
+            test_scores_mean = np.mean(test_scores, axis=1)
+            test_scores_std = np.std(test_scores, axis=1)
+            plt.grid()
+
+            plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+                            train_scores_mean + train_scores_std, alpha=0.1,
+                            color="r")
+            plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+                            test_scores_mean + test_scores_std, alpha=0.1, color="g")
+            plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+                    label="Training score")
+            plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+                    label="Cross-validation score")
+
+            plt.legend(loc="best")
             plt.show()
+
+            plt.figure()
+            param_range=np.arange(1, self.max_depth+1)
+            train_scores, valid_scores = validation_curve(clf_dt, X_train, y_train, param_name="max_depth", param_range=np.arange(1, self.max_depth+1), cv=4)
+            train_scores_mean = np.mean(train_scores, axis=1)
+            train_scores_std = np.std(train_scores, axis=1)
+            test_scores_mean = np.mean(valid_scores, axis=1)
+            test_scores_std = np.std(valid_scores, axis=1)
+            plt.title("Validation curve with max_depth")
+            plt.xlabel("Max_depth")
+            plt.ylabel("Score")
+            plt.fill_between(param_range, train_scores_mean - train_scores_std,
+                            train_scores_mean + train_scores_std, alpha=0.1,
+                            color="r")
+            plt.fill_between(param_range, test_scores_mean - test_scores_std,
+                            test_scores_mean + test_scores_std, alpha=0.1, color="g")
+            
+            plt.plot(param_range, train_scores_mean, 'o-', label="Training score",
+                color="r")
+            plt.plot(param_range, test_scores_mean, 'o-', label="Cross-validation score",
+                color="g")
+
+            plt.xticks(param_range)
+            plt.legend(loc="best")
+            plt.show()
+
+            plt.figure()
+            param_range=np.linspace(0, 0.035, self.ccp_alpha)
+            train_scores, valid_scores = validation_curve(clf_dt, X_train, y_train, param_name="ccp_alpha", param_range=np.linspace(0, 0.035, self.ccp_alpha), cv=4)
+            train_scores_mean = np.mean(train_scores, axis=1)
+            train_scores_std = np.std(train_scores, axis=1)
+            test_scores_mean = np.mean(valid_scores, axis=1)
+            test_scores_std = np.std(valid_scores, axis=1)
+            plt.title("Validation curve with ccp_alpha")
+            plt.xlabel("ccp_alpha")
+            plt.ylabel("Score")
+            plt.fill_between(param_range, train_scores_mean - train_scores_std,
+                            train_scores_mean + train_scores_std, alpha=0.1,
+                            color="r")
+            plt.fill_between(param_range, test_scores_mean - test_scores_std,
+                            test_scores_mean + test_scores_std, alpha=0.1, color="g")
+            
+            plt.plot(param_range, train_scores_mean, 'o-', label="Training score",
+                color="r")
+            plt.plot(param_range, test_scores_mean, 'o-', label="Cross-validation score",
+                color="g")
+
+            plt.xticks(param_range)
+            plt.legend(loc="best")
+            plt.show()
+
+
+
+    def query(self, X_test, y_test):
+        y_pred = self.clf.predict(X_test)
+        test_score = accuracy_score(y_test, y_pred)
+        print("Decision Tree Accuracy on the Test set: ", test_score)
