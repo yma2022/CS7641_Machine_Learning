@@ -1,53 +1,6 @@
-# running experiments
-
-import numpy as np
-import pandas as pd
-import DT as dt
-import matplotlib.pyplot as plt
-import KNN as knn
-import time
-import NN as nn
-import SVM as svm
-import Boosting as boost
-import struct
-from array import array
-from os.path import join
-import random
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn import datasets
-def run_experiment1(dt_flag=False, svm_flag=False, boost_flag=False, knn_flag=False, nn_flag=False):
-    if dt_flag:
-        dtlearner = dt.DecisionTree(verbose=True)
-        dtlearner.train(x_train, y_train)
-        dtlearner.query(x_test, y_test)
-    if boost_flag:
-        boostlearner = boost.BoostClassifier(verbose=True)
-        boostlearner.train(x_train, y_train)
-        boostlearner.query(x_test, y_test)
-    if knn_flag:
-        knnlearner = knn.KNeareatNeighbor(verbose=True)
-        knnlearner.train(x_train, y_train)
-        knnlearner.query(x_test, y_test)
-    if svm_flag:
-        svmlearner = svm.SupportVectorMachine(verbose=True)
-        svmlearner.train(x_train, y_train)
-        svmlearner.query(x_test, y_test)
-    if nn_flag:
-        nnlearner = nn.NeuralNetwork(verbose=True)
-        nnlearner.train(x_train, y_train)
-        nnlearner.query(x_test, y_test)
+import experiment1 as exp1
+import experiment2 as exp2
 
 if __name__ == '__main__':
-    #
-    # Load MINST dataset
-    #
-    print('Loading MNIST dataset...')
-    digits = datasets.load_digits()
-
-    x_train, x_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=0.20, random_state=0)
-    print('MNIST dataset loaded.')
-
-    # Decision Tree
-    np.random.seed(902764819)
-    run_experiment1(dt_flag=True, svm_flag=True, boost_flag=True, knn_flag=True, nn_flag=True)
+    exp1.main()
+    exp2.main()
