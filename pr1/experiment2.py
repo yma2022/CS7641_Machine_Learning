@@ -40,7 +40,7 @@ def main():
     #
     # Load breast cancer wisconsin dataset
     #
-    np.random.seed(902764819)
+    # np.random.seed(902764819)
     print('Loading Breast Cancer Wisconsin dataset...')
     data = pd.read_csv('data/breast_cancer_wisconsin.csv')
     data.drop(columns=['id', 'Unnamed: 32'], axis=1, inplace=True)

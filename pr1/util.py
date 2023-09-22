@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from sklearn.model_selection import learning_curve
 from sklearn.model_selection import validation_curve
 import numpy as np
+from sklearn.model_selection import KFold
 
 
 def plot_learning_curve(dataset, estimator, X_train, y_train, param_range, title="", ylim=(0.5, 1.01), show=False):
@@ -37,7 +38,7 @@ def plot_learning_curve(dataset, estimator, X_train, y_train, param_range, title
 
 def plot_validation_curve(dataset, clf_dt, X_train, y_train, title, xlabel, p_name="max_depth", p_range=np.arange(1, 31), cv=4, log=False, ylim=(0.5, 1.01), show=False):
     plt.figure()
-    train_scores, valid_scores = validation_curve(clf_dt, X_train, y_train, param_name=p_name, param_range=p_range, cv=cv)
+    train_scores, valid_scores = validation_curve(clf_dt, X_train, y_train, param_name=p_name, param_range=p_range, cv=cv, n_jobs=-1, verbose=0)
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)
     test_scores_mean = np.mean(valid_scores, axis=1)

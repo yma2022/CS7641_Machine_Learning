@@ -23,7 +23,8 @@ class NeuralNetwork(object):
         build and train decision tree
         """
         clf_nn = MLPClassifier(random_state=42, max_iter=5000)
-        param_grid = {'hidden_layer_sizes': np.arange(1, 30)}
+        param_grid = {'hidden_layer_sizes': np.arange(1, 30),
+                      'activation': ['identity', 'logistic', 'tanh', 'relu']}
         clf_nn.fit(X_train,y_train)
         print("NN Accuracy on the Train set: ", clf_nn.score(X_train, y_train))
 
@@ -32,13 +33,14 @@ class NeuralNetwork(object):
         grid_search.fit(X_train, y_train)
         best_nn = grid_search.best_estimator_
         print("Best parameters:", grid_search.best_params_)
+
+        if self.verbose:
+            util.plot_learning_curve(self.dataset, best_nn, X_train, y_train, np.linspace(.1, 1.0, 5), title="Learning Curve for NN")
+            util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over hidden_layer_sizes", xlabel='hidden_layer_sizes', p_name="hidden_layer_sizes", p_range=np.arange(1, 30), cv=4)
+            util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over activation", xlabel='activation', p_name="activation", p_range=['identity', 'logistic', 'tanh', 'relu'], cv=4)
         best_nn.fit(X_train, y_train)
         print("Best NN Accuracy on the Train set: ", best_nn.score(X_train, y_train))
         self.clf = best_nn
-
-        if self.verbose:
-            util.plot_learning_curve(self.dataset, clf_nn, X_train, y_train, np.linspace(.1, 1.0, 5), title="Learning Curve for NN")
-            util.plot_validation_curve(self.dataset, clf_nn, X_train, y_train, title="Validation Curve for Neural Network over hidden_layer_sizes", xlabel='hidden_layer_sizes', p_name="hidden_layer_sizes", p_range=np.arange(1, 30), cv=4)
 
     def query(self, X_test, y_test):
         y_pred = self.clf.predict(X_test)

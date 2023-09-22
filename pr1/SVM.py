@@ -27,7 +27,7 @@ class SupportVectorMachine(object):
         build and train decision tree
         """
         clf_svm = SVC(random_state=42)
-        param_grid = {'C': np.logspace(-3, 2, 6),
+        param_grid = {'C': np.logspace(-5, 5, 10),
                       'kernel': ['linear', 'poly', 'rbf', 'sigmoid']}
         clf_svm.fit(X_train,y_train)
         print("SVM Accuracy on the Train set: ", clf_svm.score(X_train, y_train))
@@ -37,14 +37,17 @@ class SupportVectorMachine(object):
         grid_search.fit(X_train, y_train)
         best_svm = grid_search.best_estimator_
         print("Best parameters:", grid_search.best_params_)
-        best_svm.fit(X_train, y_train)
-        print("Best SVM Accuracy on the Train set: ", best_svm.score(X_train, y_train))
-        self.clf = best_svm
+        
 
 
         if self.verbose:
-            util.plot_learning_curve(self.dataset, clf_svm, X_train, y_train, np.linspace(.1, 1.0, 5), title="Learning Curve for SVM")
-            util.plot_validation_curve(self.dataset, clf_svm, X_train, y_train, title="Validation Curve for SVM over C", xlabel='C', p_name="C", p_range=np.logspace(-3, 2, 6), cv=4, log = True)
+            util.plot_learning_curve(self.dataset, best_svm, X_train, y_train, np.linspace(.1, 1.0, 5), title="Learning Curve for SVM")
+            util.plot_validation_curve(self.dataset, best_svm, X_train, y_train, title="Validation Curve for SVM over C", xlabel='C', p_name="C", p_range=np.logspace(-5, 5, 10), cv=4, log = True)
+            util.plot_validation_curve(self.dataset, best_svm, X_train, y_train, title="Validation Curve for SVM over kernel", xlabel='kernel', p_name="kernel", p_range=['linear', 'poly', 'rbf', 'sigmoid'], cv=4)
+
+        best_svm.fit(X_train, y_train)
+        print("Best SVM Accuracy on the Train set: ", best_svm.score(X_train, y_train))
+        self.clf = best_svm
 
     def query(self, X_test, y_test):
         y_pred = self.clf.predict(X_test)

@@ -36,7 +36,7 @@ def main():
     #
     # Load MINST dataset
     #
-    np.random.seed(902764819)
+    # np.random.seed(902764819)
     print('Loading MNIST dataset...')
     digits = datasets.load_digits()
 
