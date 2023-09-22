@@ -6,6 +6,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from matplotlib import pyplot as plt
 import util
+import time
 
 
 class NeuralNetwork(object):
@@ -35,10 +36,14 @@ class NeuralNetwork(object):
         print("Best parameters:", grid_search.best_params_)
 
         if self.verbose:
-            util.plot_learning_curve(self.dataset, best_nn, X_train, y_train, np.linspace(.1, 1.0, 5), title="Learning Curve for NN")
+            util.plot_learning_curve(self.dataset, best_nn, X_train, y_train, np.linspace(0.2,1,5, endpoint=True), title="Learning Curve for NN")
             util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over hidden_layer_sizes", xlabel='hidden_layer_sizes', p_name="hidden_layer_sizes", p_range=np.arange(1, 30), cv=4)
             util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over activation", xlabel='activation', p_name="activation", p_range=['identity', 'logistic', 'tanh', 'relu'], cv=4)
+        
+        start = time.time()
         best_nn.fit(X_train, y_train)
+        end = time.time()
+        print("NN Training time:", end - start)
         print("Best NN Accuracy on the Train set: ", best_nn.score(X_train, y_train))
         self.clf = best_nn
 

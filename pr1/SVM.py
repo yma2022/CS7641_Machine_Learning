@@ -10,6 +10,7 @@ from sklearn.model_selection import learning_curve
 from sklearn.model_selection import GridSearchCV
 from matplotlib import pyplot as plt
 import util
+import time
 
 
 class SupportVectorMachine(object):
@@ -41,11 +42,14 @@ class SupportVectorMachine(object):
 
 
         if self.verbose:
-            util.plot_learning_curve(self.dataset, best_svm, X_train, y_train, np.linspace(.1, 1.0, 5), title="Learning Curve for SVM")
+            util.plot_learning_curve(self.dataset, best_svm, X_train, y_train, np.linspace(0.2,1,5, endpoint=True), title="Learning Curve for SVM")
             util.plot_validation_curve(self.dataset, best_svm, X_train, y_train, title="Validation Curve for SVM over C", xlabel='C', p_name="C", p_range=np.logspace(-5, 5, 10), cv=4, log = True)
             util.plot_validation_curve(self.dataset, best_svm, X_train, y_train, title="Validation Curve for SVM over kernel", xlabel='kernel', p_name="kernel", p_range=['linear', 'poly', 'rbf', 'sigmoid'], cv=4)
 
+        start = time.time()
         best_svm.fit(X_train, y_train)
+        end = time.time()
+        print("SVM Training time:", end - start)
         print("Best SVM Accuracy on the Train set: ", best_svm.score(X_train, y_train))
         self.clf = best_svm
 

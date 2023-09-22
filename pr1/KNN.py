@@ -5,6 +5,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 import util
+import time
 
 
 class KNeareatNeighbor(object):
@@ -34,11 +35,14 @@ class KNeareatNeighbor(object):
         print("Best parameters:", grid_search.best_params_)
 
         if self.verbose:
-            util.plot_learning_curve(self.dataset, estimator=best_knn, X_train=X_train, y_train=y_train, param_range=np.linspace(0.1,1,5), title="Learning Curve for KNN")
+            util.plot_learning_curve(self.dataset, estimator=best_knn, X_train=X_train, y_train=y_train, param_range=np.linspace(0.2,1,5, endpoint=True), title="Learning Curve for KNN")
             util.plot_validation_curve(self.dataset, best_knn, X_train, y_train, title="Validation Curve for KNN over n_neighbors", xlabel='n_neighbors', p_name="n_neighbors", p_range=np.arange(1, 30, 2), cv=4)
             util.plot_validation_curve(self.dataset, best_knn, X_train, y_train, title="Validation Curve for KNN over weights", xlabel='weights', p_name="weights", p_range=['uniform', 'distance'], cv=4)
         
+        start = time.time()
         best_knn.fit(X_train, y_train)
+        end = time.time()
+        print("KNN Training time:", end - start)
         print("Best KNN Accuracy on the Train set: ", best_knn.score(X_train, y_train))
         self.clf = best_knn
 

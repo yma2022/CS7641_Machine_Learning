@@ -6,6 +6,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV
 import util
+import time
 
 
 class BoostClassifier(object):
@@ -32,11 +33,14 @@ class BoostClassifier(object):
         
 
         if self.verbose:
-            util.plot_learning_curve(self.dataset, estimator=best_dt, X_train=X_train, y_train=y_train, param_range=np.linspace(0.1,1,5), title="Learning Curve for Boosting Decision Tree")
+            util.plot_learning_curve(self.dataset, estimator=best_dt, X_train=X_train, y_train=y_train, param_range=np.linspace(0.2,1,5, endpoint=True), title="Learning Curve for Boosting Decision Tree")
             util.plot_validation_curve(self.dataset, best_dt, X_train, y_train, title="Validation Curve for Boosting Decision Tree over n_estimators", xlabel='n_estimators', p_name="n_estimators", p_range=np.arange(1, 200, 20), cv=4)
             util.plot_validation_curve(self.dataset, best_dt, X_train, y_train, title="Validation Curve for Boosting Decision Tree over learning_rate", xlabel='learning_rate', p_name="learning_rate", p_range=np.logspace(-3, 0, 5), cv=4, log=True)
 
+        start = time.time()
         best_dt.fit(X_train, y_train)
+        end = time.time()
+        print("Boost Decision Tree Training time:", end - start)
         print("Boost Decision Tree Accuracy on the Train set: ", best_dt.score(X_train, y_train))
         self.clf = best_dt
 
