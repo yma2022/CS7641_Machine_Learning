@@ -24,7 +24,7 @@ class NeuralNetwork(object):
         build and train decision tree
         """
         clf_nn = MLPClassifier(random_state=42, max_iter=5000)
-        param_grid = {'hidden_layer_sizes': np.arange(1, 30),
+        param_grid = {'hidden_layer_sizes': np.arange(1, 100, 10),
                       'activation': ['identity', 'logistic', 'tanh', 'relu']}
         clf_nn.fit(X_train,y_train)
         print("NN Accuracy on the Train set: ", clf_nn.score(X_train, y_train))
@@ -37,7 +37,7 @@ class NeuralNetwork(object):
 
         if self.verbose:
             util.plot_learning_curve(self.dataset, best_nn, X_train, y_train, np.linspace(0.2,1,5, endpoint=True), title="Learning Curve for NN")
-            util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over hidden_layer_sizes", xlabel='hidden_layer_sizes', p_name="hidden_layer_sizes", p_range=np.arange(1, 30), cv=4)
+            util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over hidden_layer_sizes", xlabel='hidden_layer_sizes', p_name="hidden_layer_sizes", p_range=np.arange(1, 100, 10), cv=4)
             util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over activation", xlabel='activation', p_name="activation", p_range=['identity', 'logistic', 'tanh', 'relu'], cv=4)
         
         start = time.time()
