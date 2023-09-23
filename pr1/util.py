@@ -115,7 +115,7 @@ def svm_plot_validation_curve(dataset, clf_dt, X_train, y_train, title, xlabel, 
     plt.xlabel(xlabel)
     plt.ylabel("Score")
     plt.grid()
-    plt.ylim(ylim)
+    # plt.ylim(ylim)
     plt.fill_between(p_range, train_scores_mean - train_scores_std,
                     train_scores_mean + train_scores_std, alpha=0.1,
                     color="r")
