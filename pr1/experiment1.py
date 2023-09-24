@@ -41,6 +41,11 @@ def main():
     digits = datasets.load_digits()
 
     x_train, x_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=0.20, random_state=42)
+    x_train = x_train / 255.0
+    x_test = x_test / 255.0
     print('MNIST dataset loaded.')
     
     run_experiment1(dt_flag=True, svm_flag=True, boost_flag=True, knn_flag=True, nn_flag=True)
+
+if __name__ == '__main__':
+    main()

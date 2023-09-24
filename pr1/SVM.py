@@ -32,8 +32,8 @@ class SupportVectorMachine(object):
         best_scores = []
         for k in ['poly', 'rbf', 'sigmoid']:
             clf_svm = SVC(kernel=k, random_state=42)
-            param_grid = {'C': np.logspace(-10, 5, 10),
-                        'gamma': np.logspace(-10, 5, 10)}
+            param_grid = {'C': np.logspace(-10, 10, 10),
+                        'gamma': np.logspace(-10, 10, 10)}
             clf_svm.fit(X_train,y_train)
             train_scores.append(clf_svm.score(X_train, y_train))            
 
@@ -57,9 +57,9 @@ class SupportVectorMachine(object):
             best_scores.append(best_svm.score(X_train, y_train))           
             self.clf.append(best_svm)
 
-        print("SVM Accuracy on the Train setwith linear, poly, rbf and sigmoid: ", train_scores)
-        print("SVM Training time with linear, poly, rbf and sigmoid:", train_time)
-        print("Best SVM Accuracy on the Train set with linear, poly, rbf and sigmoid: ", best_scores)
+        print("SVM Accuracy on the Train setwith poly, rbf and sigmoid: ", train_scores)
+        print("SVM Training time with poly, rbf and sigmoid:", train_time)
+        print("Best SVM Accuracy on the Train set with poly, rbf and sigmoid: ", best_scores)
 
     def query(self, X_test, y_test):
         res = []
@@ -67,4 +67,4 @@ class SupportVectorMachine(object):
             y_pred = clf.predict(X_test)
             test_score = accuracy_score(y_test, y_pred)
             res.append(test_score)
-        print("SVM Accuracy on the Test set with linear, poly, rbf and sigmoid: ", res)
+        print("SVM Accuracy on the Test set with poly, rbf and sigmoid: ", res)
