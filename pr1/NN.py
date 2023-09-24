@@ -35,6 +35,14 @@ class NeuralNetwork(object):
         best_nn = grid_search.best_estimator_
         print("Best parameters:", grid_search.best_params_)
 
+        plt.figure()
+        plt.title("Loss curve")
+        plt.xlabel("Iterations")
+        plt.ylabel("Loss")
+        plt.plot(best_nn.loss_curve_)
+        plt.savefig("img/" + self.dataset + "_NN_loss_curve.png")
+        plt.close()
+        
         if self.verbose:
             util.plot_learning_curve(self.dataset, best_nn, X_train, y_train, np.linspace(0.2,1,5, endpoint=True), title="Learning Curve for NN")
             util.plot_validation_curve(self.dataset, best_nn, X_train, y_train, title="Validation Curve for Neural Network over hidden_layer_sizes", xlabel='hidden_layer_sizes', p_name="hidden_layer_sizes", p_range=np.arange(1, 100, 10), cv=4)
