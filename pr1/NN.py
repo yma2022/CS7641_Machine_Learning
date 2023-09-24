@@ -23,7 +23,7 @@ class NeuralNetwork(object):
         """
         build and train decision tree
         """
-        clf_nn = MLPClassifier(random_state=42, max_iter=5000)
+        clf_nn = MLPClassifier(random_state=42, max_iter=500)
         param_grid = {'hidden_layer_sizes': np.arange(1, 100, 10),
                       'activation': ['identity', 'logistic', 'tanh', 'relu']}
         clf_nn.fit(X_train,y_train)
