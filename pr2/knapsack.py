@@ -20,6 +20,7 @@ data_time = []
 data_fitness = []
 
 restarts = util.rhc_tuning(problem)
+print("RHC restarts for knapsack: ", restarts)
 process_time_rhc = [0] * len(iterations)
 best_fitness_rhc = [0] * len(iterations)
 for k in range(10):
@@ -36,6 +37,7 @@ data_time.append(process_time_rhc)
 data_fitness.append(best_fitness_rhc)
 
 decay_param = util.sa_tuning(problem)
+print("SA decay param for knapsack: ", decay_param)
 # Define decay schedule
 schedule = mlrose.ExpDecay(init_temp=decay_param[0], exp_const=decay_param[1], min_temp=decay_param[2])
 process_time_sa = [0] * len(iterations)
@@ -55,6 +57,7 @@ data_fitness.append(best_fitness_sa)
 
 
 pop_ga, mutation_p = util.ga_tuning(problem)
+print("GA pop size for knapsack: ", pop_ga, " and mutation prob: ", mutation_p)
 process_time_ga = [0] * len(iterations)
 best_fitness_ga = [0] * len(iterations)
 for k in range(10):
@@ -71,6 +74,7 @@ data_time.append(process_time_ga)
 data_fitness.append(best_fitness_ga)
 
 pop_m, keep_p = util.mimic_tuning(problem)
+print("MIMIC pop size for knapsack: ", pop_m, " and keep pct: ", keep_p)
 process_time_mimic = [0] * len(iterations)
 best_fitness_mimic = [0] * len(iterations)
 for k in range(10):
@@ -86,6 +90,9 @@ for k in range(10):
 data_time.append(process_time_mimic)
 data_fitness.append(best_fitness_mimic)
 
+print("iterations: ", iterations)
+print("train_data: ", data_fitness)
+print("process_time: ", data_time)
 util.plot_problem(data_fitness, iterations, ylabel="Best Fitness", title="Knapsack Optimal by Iterations: Average of 10", show=False)
 util.plot_problem(data_time, iterations, ylabel="Process Time", title="Knapsack Process Time: Average of 10", show=False)
 
