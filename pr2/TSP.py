@@ -5,32 +5,27 @@ import util
 
 SEEDs = [42, 24, 7, 100, 200, 300, 400, 500, 600, 700]
 
-# Define a fitness function object
-def queens_max(state):
+# Create list of city coordinates
+coords_list = [(1, 1), (4, 2), (5, 2), (6, 4), (4, 4), (3, 6), (1, 5), (2, 3)]
 
-   # Initialize counter
-    fitness_cnt = 0
+# Initialize fitness function object using coords_list
+fitness_coords = mlrose.TravellingSales(coords = coords_list)
 
-    # For all pairs of queens
-    for i in range(len(state) - 1):
-        for j in range(i + 1, len(state)):
-        # Check for horizontal, diagonal-up and diagonal-down attacks
-            if (state[j] != state[i]) and (state[j] != state[i] + (j - i)) and (state[j] != state[i] - (j - i)):
-                # If no attacks, then increment counter
-                fitness_cnt += 1
+# Create list of distances between pairs of cities
+dist_list = [(0, 1, 3.1623), (0, 2, 4.1231), (0, 3, 5.8310), (0, 4, 4.2426), \
+             (0, 5, 5.3852), (0, 6, 4.0000), (0, 7, 2.2361), (1, 2, 1.0000), \
+             (1, 3, 2.8284), (1, 4, 2.0000), (1, 5, 4.1231), (1, 6, 4.2426), \
+             (1, 7, 2.2361), (2, 3, 2.2361), (2, 4, 2.2361), (2, 5, 4.4721), \
+             (2, 6, 5.0000), (2, 7, 3.1623), (3, 4, 2.0000), (3, 5, 3.6056), \
+             (3, 6, 5.0990), (3, 7, 4.1231), (4, 5, 2.2361), (4, 6, 3.1623), \
+             (4, 7, 2.2361), (5, 6, 2.2361), (5, 7, 3.1623), (6, 7, 2.2361)]
 
-    return fitness_cnt
+# Initialize fitness function object using dist_list
+fitness_dists = mlrose.TravellingSales(distances = dist_list)
 
+# Define optimization problem object
+problem = mlrose.TSPOpt(length = 8, fitness_fn = fitness_coords, maximize=False)
 
-# Initialize custom fitness function object
-fitness_cust = mlrose.CustomFitness(queens_max)
-
-
-# Define an optimization problem object.
-# The 8-Queens problem is an example of a discrete-state optimization problem, 
-# since each of the elements of the state vector must take on an integer value in the range 0 to 7.
-
-problem = mlrose.DiscreteOpt(length = 8, fitness_fn = fitness_cust, maximize = True, max_val = 8)
 
 # Select and run a randomized optimization algorithm.
 
@@ -137,8 +132,8 @@ print("iterations: ", iterations)
 print("train_data: ", data_fitness)
 print("process_time: ", data_time)
 
-util.plot_problem(data_fitness, iterations, ylabel="Best Fitness", title="8 Queens Optimal by Iterations: Average of 10", show=False)
-util.plot_problem(data_time, iterations, ylabel="Process Time", title="8 Queens Process Time: Average of 10", show=False)
-util.plot_problem(fevals, iterations, ylabel="Function Evaluations", title="8 Queens Function Evaluations: Average of 10", show=False)
+util.plot_problem(data_fitness, iterations, ylabel="Best Fitness", title="TSP Optimal by Iterations: Average of 10", show=False)
+util.plot_problem(data_time, iterations, ylabel="Process Time", title="TSP Process Time: Average of 10", show=False)
+util.plot_problem(fevals, iterations, ylabel="Function Evaluations", title="TSP Function Evaluations: Average of 10", show=False)
 
 

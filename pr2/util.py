@@ -44,7 +44,24 @@ def plot_problem(data, param_range, ylabel="", title="", show=False):
         outfile = "img/" + title + ".png"
         plt.savefig(outfile)
         plt.close()
-
+def plot_problem_size(data, param_range, ylabel="", title="", show=False):
+    plt.figure()
+    plt.title(title)
+    plt.xlabel("Problem Size")
+    plt.ylabel(ylabel)
+    labels = ["RHC", "SA", "GA", "MIMIC"]
+    colors = ['r', 'g', 'b', 'y']
+    for i in range(len(data)):
+        plt.plot(param_range, data[i],'o-', color=colors[i], label=labels[i])
+    plt.grid()
+    plt.legend(loc="best")
+    if show:
+        plt.show()
+    else:
+        outfile = "img/" + title + ".png"
+        plt.savefig(outfile)
+        plt.close()
+        
 def rhc_tuning(problem):
     restarts = None
     best_fitness = None

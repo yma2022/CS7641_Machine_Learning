@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn import preprocessing, datasets
+from mlxtend.evaluate import bias_variance_decomp
 import time
 import util
 
@@ -64,6 +65,7 @@ if __name__ == "__main__":
         test_time_bp.append(test_end - test_start)
         y_test_accuracy_bp = accuracy_score(y_test, y_test_pred_bp)
         test_acc_bp.append(y_test_accuracy_bp)
+        mse, _, _ = bias_variance_decomp(nn_model_bp, X_train, y_train, X_test, y_test, loss='mse', num_rounds=200, random_seed=42)
         mse_bp.append(nn_model_bp.loss)
     train_data.append(train_acc_bp)
     test_data.append(test_acc_bp)
@@ -193,4 +195,4 @@ if __name__ == "__main__":
     util.plot_curve(test_data, iterations, ylabel="Testing Accuracy", title="Breast Cancer Wisconsin Dataset - Neural Network Testing Curve", show=False)
     util.plot_curve(train_time, iterations, ylabel="Training Time", title="Breast Cancer Wisconsin Dataset - Neural Network Training Time", show=False)
     util.plot_curve(test_time, iterations, ylabel="Testing Time", title="Breast Cancer Wisconsin Dataset - Neural Network Testing Time", show=False)
-    util.plot_curve(mse_data, iterations, ylabel="MSE", title="Breast Cancer Wisconsin Dataset - Neural Network Mean Squared Error", show=False)
+    util.plot_curve(mse_data, iterations, ylabel="Error", title="Breast Cancer Wisconsin Dataset - Neural Network Loss Curve", show=False)
