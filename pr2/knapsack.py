@@ -120,7 +120,7 @@ iterations = [5, 25, 50, 75, 100, 125, 150]
 # util.plot_problem(fevals, iterations, ylabel="# of Evaluations", title="Knapsack Function Evaluations: Average of 10", show=False)
 
 
-problem_sizes = [10,40, 70, 100, 130]
+problem_sizes = [10,20, 30, 40, 50]
 data_size = []
 
 size_fitness_rhc = [0]*5
