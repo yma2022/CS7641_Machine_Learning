@@ -29,7 +29,7 @@ def plot_curve(data, xlabel="", ylabel=[], title="", show=False):
 
 def multiplot_curve(data, method='K-Means', param='SSE', dataset="Digits"):
     plt.figure()
-    title = method + " " + param + " vs k: " + "Dimensionality reduced " + dataset + " data"
+    title = method + " " + param + " vs k " + "Dimensionality reduced " + dataset + " data"
     plt.title(title)
     for f in ['PCA', 'ICA', 'RP', 'LLE']:
         # print(data[f][method]['k'], data[f][method][param])

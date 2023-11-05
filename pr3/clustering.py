@@ -62,11 +62,11 @@ digits_kmeans = collections.defaultdict(list)
 digits_gmm = collections.defaultdict(list)
 clustering(X_digits, y_digits, 'kmeans', digits_kmeans)
 
-util.plot_curve(digits_kmeans, 'k', ['SSE', 'Silhouette', 'AMI'], 'K-Means metrics vs k: Digits data', show=False)
+util.plot_curve(digits_kmeans, 'k', ['SSE', 'Silhouette', 'AMI'], 'K-Means metrics vs k Digits data', show=False)
 
 clustering(X_digits, y_digits, 'gmm', digits_gmm)
 
-util.plot_curve(digits_gmm, 'k', ['BIC', 'Log_Likelihood', 'AMI'], 'EM metrics vs k: Digits data', show=False)
+util.plot_curve(digits_gmm, 'k', ['BIC', 'Log_Likelihood', 'AMI'], 'EM metrics vs k Digits data', show=False)
 
 
 
@@ -87,8 +87,8 @@ cancer_kmeans = collections.defaultdict(list)
 cancer_gmm = collections.defaultdict(list)
 clustering(X_cancer, y_cancer, 'kmeans', cancer_kmeans)
 
-util.plot_curve(cancer_kmeans, 'k', ['SSE', 'Silhouette', 'AMI'], 'K-Means metrics vs k: Cancer data', show=False)
+util.plot_curve(cancer_kmeans, 'k', ['SSE', 'Silhouette', 'AMI'], 'K-Means metrics vs k Cancer data', show=False)
 
 clustering(X_cancer, y_cancer, 'gmm', cancer_gmm)
 
-util.plot_curve(cancer_gmm, 'k', ['BIC', 'Log_Likelihood', 'AMI'], 'EM metrics vs k: Cancer data', show=False)
+util.plot_curve(cancer_gmm, 'k', ['BIC', 'Log_Likelihood', 'AMI'], 'EM metrics vs k Cancer data', show=False)
