@@ -9,6 +9,7 @@ from sklearn import preprocessing
 import collections
 import time
 from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt
 import util
 
 '''
@@ -53,16 +54,36 @@ def clustering(X, y, method, metrics=defaultdict(list)):
 
 print('Loading MNIST dataset...')
 digits = datasets.load_digits()
-X_digits = digits.data
+X_digits = digits.data / 255.0
 y_digits = digits.target
 print('MNIST dataset loaded.')
 
+# kmodel = kmeans(n_clusters=10, random_state=42)
+# y_kmeans = kmodel.fit_predict(X_digits)
+# plt.figure()
+# plt.scatter(X_digits[:, 0], X_digits[:, 1], c=y_kmeans, s=50, cmap='viridis')
+
+# plt.title('K-Means Clustering')
+# plt.xlabel('PC1')
+# plt.ylabel('PC2')
+# plt.show()
+
+# emodel = GMM(n_components=10, random_state=42)
+# y_em = emodel.fit_predict(X_digits)
+# plt.figure()
+# plt.scatter(X_digits[:, 0], X_digits[:, 1], c=y_em, s=50, cmap='viridis')
+# plt.title('EM Clustering')
+# plt.xlabel('PC1')
+# plt.ylabel('PC2')
+# plt.show()
 
 digits_kmeans = collections.defaultdict(list)
 digits_gmm = collections.defaultdict(list)
 clustering(X_digits, y_digits, 'kmeans', digits_kmeans)
 
 util.plot_curve(digits_kmeans, 'k', ['SSE', 'Silhouette', 'AMI'], 'K-Means metrics vs k Digits data', show=False)
+
+
 
 clustering(X_digits, y_digits, 'gmm', digits_gmm)
 
@@ -82,6 +103,25 @@ y_cancer = y_cancer.astype(int)
 scaler = preprocessing.StandardScaler()
 X_cancer = scaler.fit_transform(X_cancer)
 print('Breast Cancer Wisconsin dataset loaded.')
+
+# kmodel = kmeans(n_clusters=2, random_state=42)
+# y_kmeans = kmodel.fit_predict(X_cancer)
+# plt.figure()
+# plt.scatter(X_cancer[:, 0], X_cancer[:, 1], c=y_kmeans, s=50, cmap='viridis')
+
+# plt.title('K-Means Clustering')
+# plt.xlabel('PC1')
+# plt.ylabel('PC2')
+# plt.show()
+
+# emodel = GMM(n_components=2, random_state=42)
+# y_em = emodel.fit_predict(X_cancer)
+# plt.figure()
+# plt.scatter(X_cancer[:, 0], X_cancer[:, 1], c=y_em, s=50, cmap='viridis')
+# plt.title('EM Clustering')
+# plt.xlabel('PC1')
+# plt.ylabel('PC2')
+# plt.show()
 
 cancer_kmeans = collections.defaultdict(list)
 cancer_gmm = collections.defaultdict(list)

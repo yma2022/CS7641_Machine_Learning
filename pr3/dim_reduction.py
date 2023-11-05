@@ -85,15 +85,21 @@ def run_ICA(dataset, X, y, title, k=10, dims=[]):
 def run_RP(dataset, X, y, title, k=10, dims=[]):
     X_rp = SparseRandomProjection(n_components=2, random_state=42).fit_transform(X)
     plot_embedding(dataset, X_rp,y,k, "RP projection first 2 components "+title)
-
-    clf = SparseRandomProjection(random_state=42)
+    
+    clf = SparseRandomProjection()
     reconstruction_error = {}
-    for dim in dims:
-        clf.set_params(n_components=dim)
-        tmp = clf.fit_transform(X)
-        tmp = pd.DataFrame(tmp)
-        tmp = np.linalg.norm(X - clf.inverse_transform(tmp), axis=1)
-        reconstruction_error[dim] = np.mean(tmp)
+    for i in range(10):
+        for dim in dims:
+            clf.set_params(n_components=dim)
+            tmp = clf.fit_transform(X)
+            tmp = pd.DataFrame(tmp)
+            tmp = np.linalg.norm(X - clf.inverse_transform(tmp), axis=1)
+            if dim not in reconstruction_error:
+                reconstruction_error[dim] = np.mean(tmp)
+            else:
+                reconstruction_error[dim] += np.mean(tmp)
+            if i == 9:
+                reconstruction_error[dim] /= 10
 
     reconstruction_error = pd.Series(reconstruction_error) 
 
@@ -127,7 +133,7 @@ def run_LLE(dataset, X, y, title, k=10, dims=[]):
 ############################################################################################################
 print('Loading MNIST dataset...')
 digits = datasets.load_digits()
-X_digits = digits.data
+X_digits = digits.data / 255.0
 y_digits = digits.target
 print('MNIST dataset loaded.')
 run_PCA('Digits', X_digits, y_digits, 'Digits',10, True)
