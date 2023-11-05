@@ -33,7 +33,7 @@ print('Training accuracy: ', clf_nn.score(x_train, y_train))
 print('Test accuracy: ', clf_nn.score(x_test, y_test))
 
 
-X_pca = PCA(n_components=10, random_state=42).fit_transform(digits.data)
+X_pca = PCA(n_components=50, random_state=42).fit_transform(digits.data)
 X_pca = pd.DataFrame(X_pca)
 x_train, x_test, y_train, y_test = train_test_split(X_pca, digits.target, test_size=0.20, random_state=42)
 clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)
@@ -102,7 +102,7 @@ print('Training accuracy: ', clf_nn.score(x_train, y_train))
 print('Test accuracy: ', clf_nn.score(x_test, y_test))
 
 
-X_pca = PCA(n_components=10, random_state=42).fit_transform(X_cancer)
+X_pca = PCA(n_components=20, random_state=42).fit_transform(X_cancer)
 X_pca = pd.DataFrame(X_pca)
 x_train, x_test, y_train, y_test = train_test_split(X_pca, y_cancer, test_size=0.20, random_state=42)
 clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)

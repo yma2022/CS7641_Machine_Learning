@@ -38,7 +38,7 @@ run PCA
 '''
 def run_PCA(dataset, X, y, title, k=10, plot=False):
     # Create a PCA instance: pca
-    pca = PCA(random_state=5)
+    pca = PCA(random_state=42)
     pca.fit(X)
     tmp = pd.Series(data = pca.explained_variance_,index = range(1,pca.explained_variance_.shape[0]+1))
     tmp.to_csv('./outputs/PCA/'+title+'.csv')
@@ -53,8 +53,8 @@ def run_PCA(dataset, X, y, title, k=10, plot=False):
         plt.savefig('./img/'+'PCA_'+title+'.png')
         plt.close()
 
-        X_pca = PCA(n_components=2, random_state=5).fit_transform(X)
-        plot_embedding(dataset, X_pca,y,k, "PCA projection first 2 components: "+title)
+        X_pca = PCA(n_components=2, random_state=42).fit_transform(X)
+        plot_embedding(dataset, X_pca,y,k, "PCA projection first 2 components "+title)
         X_pca = pd.DataFrame(X_pca)
         X_pca.to_csv('./outputs/PCA/'+title+'_pca.csv')
 
@@ -63,14 +63,15 @@ run ICA
 '''
 def run_ICA(dataset, X, y, title, k=10, dims=[]):
     X_ica = FastICA(n_components=2, random_state=42).fit_transform(X)
-    plot_embedding(dataset, X_ica,y,k, "ICA projection first 2 components: "+title)
+    plot_embedding(dataset, X_ica,y,k, "ICA projection first 2 components "+title)
     clf = FastICA(random_state=42)
     kurt = {}
     for dim in dims:
         clf.set_params(n_components=dim)
-        ica = clf.fit(X)
-        components = ica.components_
-        kurt[dim] = np.mean(kurtosis(components))
+        ica = clf.fit_transform(X)
+        tmp = pd.DataFrame(ica)
+        tmp = tmp.kurt(axis=0)
+        kurt[dim] = tmp.abs().mean()
 
     kurt = pd.Series(kurt) 
 
@@ -82,10 +83,10 @@ def run_ICA(dataset, X, y, title, k=10, dims=[]):
     plt.savefig('./img/'+'ICA_'+title+'.png')
 
 def run_RP(dataset, X, y, title, k=10, dims=[]):
-    X_rp = SparseRandomProjection(n_components=2, random_state=5).fit_transform(X)
-    plot_embedding(dataset, X_rp,y,k, "RP projection first 2 components: "+title)
+    X_rp = SparseRandomProjection(n_components=2, random_state=42).fit_transform(X)
+    plot_embedding(dataset, X_rp,y,k, "RP projection first 2 components "+title)
 
-    clf = SparseRandomProjection(random_state=5)
+    clf = SparseRandomProjection(random_state=42)
     reconstruction_error = {}
     for dim in dims:
         clf.set_params(n_components=dim)
@@ -107,10 +108,11 @@ def run_RP(dataset, X, y, title, k=10, dims=[]):
 def run_LLE(dataset, X, y, title, k=10, dims=[]):
     clf = LocallyLinearEmbedding(n_neighbors=30, n_components=2, method='standard', random_state=42)
     X_lle = clf.fit_transform(X)
-    plot_embedding(dataset, X_lle,y,k, "LLE projection first 2 components: "+title)
+    plot_embedding(dataset, X_lle,y,k, "LLE projection first 2 components "+title)
     reconstruction_error = {}
+    clf = LocallyLinearEmbedding(n_neighbors=30, method='standard', random_state=42)
     for dim in dims:
-        clf = LocallyLinearEmbedding(n_neighbors=30, n_components=dim, method='standard', random_state=42)
+        clf.set_params(n_components=dim)
         X_lle = clf.fit_transform(X)
         reconstruction_error[dim] = clf.reconstruction_error_
     reconstruction_error = pd.Series(reconstruction_error)
@@ -129,8 +131,8 @@ X_digits = digits.data
 y_digits = digits.target
 print('MNIST dataset loaded.')
 run_PCA('Digits', X_digits, y_digits, 'Digits',10, True)
-run_ICA('Digits', X_digits, y_digits, 'Digits', 10, [2,5,10,15,20,25,30,35,40,45,50,55,60])
-run_RP('Digits', X_digits, y_digits, 'Digits', 10, [2,5,10,15,20,25,30,35,40,45,50,55,60])
+run_ICA('Digits', X_digits, y_digits, 'Digits', 10, [2,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,100])
+run_RP('Digits', X_digits, y_digits, 'Digits', 10, [2,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,100])
 run_LLE('Digits', X_digits, y_digits, 'Digits', 10, [2,5,10,15,20,25,30,35,40,45,50,55,60])
 
 
@@ -147,6 +149,6 @@ scaler = preprocessing.StandardScaler()
 X_cancer = scaler.fit_transform(X_cancer)
 print('Breast Cancer Wisconsin dataset loaded.')
 run_PCA('Cancer', X_cancer, y_cancer, 'Cancer',2, True)
-run_ICA('Cancer', X_cancer, y_cancer, 'Cancer', 2, [2,5,10,15,20,25,30])
-run_RP('Cancer', X_cancer, y_cancer, 'Cancer', 2, [2,5,10,15,20,25,30])
+run_ICA('Cancer', X_cancer, y_cancer, 'Cancer', 2, [2,5,10,15,20,25,30,35,40,45,50,55,60,65,70,80])
+run_RP('Cancer', X_cancer, y_cancer, 'Cancer', 2, [2,5,10,15,20,25,30,35,40,45,50,55,60,65,70,80])
 run_LLE('Cancer', X_cancer, y_cancer, 'Cancer', 2, [2,5,10,15,20,25,30])

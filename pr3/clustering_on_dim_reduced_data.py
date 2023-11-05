@@ -6,6 +6,10 @@ from collections import defaultdict
 from sklearn.metrics import adjusted_mutual_info_score as ami
 from sklearn import datasets
 from sklearn import preprocessing
+from sklearn.decomposition import PCA
+from sklearn.decomposition import FastICA
+from sklearn.random_projection import SparseRandomProjection
+from sklearn.manifold import LocallyLinearEmbedding
 import collections
 import time
 from sklearn.metrics import silhouette_score
@@ -18,7 +22,7 @@ k-Means
 
 
 def clustering(X, y, method, metrics=defaultdict(list)):
-    k_range=np.arange(10,150,10)
+    k_range=np.arange(2,150,10)
     if method == 'kmeans':
         for k in k_range:
             metrics['k'].append(k)
@@ -53,21 +57,29 @@ def clustering(X, y, method, metrics=defaultdict(list)):
 
 print('Loading MNIST dataset...')
 digits = datasets.load_digits()
-X_digits = digits.data / 255.0
+X_digits = digits.data
 y_digits = digits.target
 print('MNIST dataset loaded.')
 digits = collections.defaultdict(dict)
-for f in ['PCA', 'ICA', 'RP', 'RF']:
+for f in ['PCA', 'ICA', 'RP', 'LLE']:
     digits_kmeans = collections.defaultdict(list)
     digits_gmm = collections.defaultdict(list)
-    X_red = pd.read_csv('./outputs/'+f+'/Digits_'+f.lower()+'.csv').values
+    if f == 'PCA':
+        X_red = PCA(n_components=10, random_state=42).fit_transform(X_digits)
+    elif f == 'ICA':
+        X_red = FastICA(n_components=10, random_state=42).fit_transform(X_digits)
+    elif f == 'RP':
+        X_red = SparseRandomProjection(n_components=10, random_state=42).fit_transform(X_digits)
+    elif f == 'LLE':
+        X_red = LocallyLinearEmbedding(n_neighbors=30, n_components=10, random_state=42).fit_transform(X_digits)
     clustering(X_red, y_digits, 'kmeans', digits_kmeans)
     digits[f]['K-Means'] = digits_kmeans
     
     clustering(X_red, y_digits, 'gmm', digits_gmm)
     digits[f]['GMM'] = digits_gmm
-print(digits)
+# print(digits)
 for method in ['K-Means', 'GMM']:
+    
     if method == 'K-Means':
         for param in ['SSE', 'Silhouette', 'AMI']:
             util.multiplot_curve(digits, method=method, param=param, dataset="Digits")
@@ -90,10 +102,17 @@ X_cancer = scaler.fit_transform(X_cancer)
 print('Breast Cancer Wisconsin dataset loaded.')
 cancer = collections.defaultdict(dict)
 
-for f in ['PCA', 'ICA', 'RP', 'RF']:
+for f in ['PCA', 'ICA', 'RP', 'LLE']:
     cancer_kmeans = collections.defaultdict(list)
     cancer_gmm = collections.defaultdict(list)
-    X_red = pd.read_csv('./outputs/'+f+'/Cancer_'+f.lower()+'.csv').values
+    if f == 'PCA':
+        X_red = PCA(n_components=10, random_state=42).fit_transform(X_cancer)
+    elif f == 'ICA':
+        X_red = FastICA(n_components=10, random_state=42).fit_transform(X_cancer)
+    elif f == 'RP':
+        X_red = SparseRandomProjection(n_components=10, random_state=42).fit_transform(X_cancer)
+    elif f == 'LLE':
+        X_red = LocallyLinearEmbedding(n_neighbors=30, n_components=10, random_state=42).fit_transform(X_cancer)
     clustering(X_red, y_cancer, 'kmeans', cancer_kmeans)
     cancer[f]['K-Means'] = cancer_kmeans
     
