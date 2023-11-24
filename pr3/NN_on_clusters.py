@@ -27,49 +27,47 @@ print('MNIST dataset loaded.')
 
 
 kmodel = kmeans(n_clusters=10, random_state=42)
-# model.fit(X_digits)
-# new_digits_kmeans = model.labels_.reshape(-1,1)
+
 
 emodel = GMM(n_components=10, random_state=42)
-# model.fit(X_digits)
-# new_digits_gmm = model.predict(X_digits).reshape(-1,1)
+
   
 
 
 #############################################################################################################
 
 
-# clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)
-# start = time.time()
-# clf_nn.fit(x_train, y_train)
-# end = time.time()
-# print('Training time: ', end-start)
-# print('Training accuracy: ', clf_nn.score(x_train, y_train))
-# print('Test accuracy: ', clf_nn.score(x_test, y_test))
+clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)
+start = time.time()
+clf_nn.fit(x_train, y_train)
+end = time.time()
+print('Training time: ', end-start)
+print('Training accuracy: ', clf_nn.score(x_train, y_train))
+print('Test accuracy: ', clf_nn.score(x_test, y_test))
 
-# kmodel.fit(x_train)
-# x_train = kmodel.labels_.reshape(-1,1)
-# kmodel.fit(x_test)
-# x_test = kmodel.labels_.reshape(-1,1)
-# clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)
-# start = time.time()
-# clf_nn.fit(x_train, y_train)
-# end = time.time()
-# print('K-Means Training time: ', end-start)
-# print('K-Means Training accuracy: ', clf_nn.score(x_train, y_train))
-# print('K-Means Test accuracy: ', clf_nn.score(x_test, y_test))
+kmodel.fit(x_train)
+x_train = kmodel.labels_.reshape(-1,1)
+kmodel.fit(x_test)
+x_test = kmodel.labels_.reshape(-1,1)
+clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)
+start = time.time()
+clf_nn.fit(x_train, y_train)
+end = time.time()
+print('K-Means Training time: ', end-start)
+print('K-Means Training accuracy: ', clf_nn.score(x_train, y_train))
+print('K-Means Test accuracy: ', clf_nn.score(x_test, y_test))
 
-# emodel.fit(x_train)
-# x_train = emodel.predict(x_train).reshape(-1,1)
-# emodel.fit(x_test)
-# x_test = emodel.predict(x_test).reshape(-1,1)
-# clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)
-# start = time.time()
-# clf_nn.fit(x_train, y_train)
-# end = time.time()
-# print('GMM Training time: ', end-start)
-# print('GMM Training accuracy: ', clf_nn.score(x_train, y_train))
-# print('GMM Test accuracy: ', clf_nn.score(x_test, y_test))
+emodel.fit(x_train)
+x_train = emodel.predict(x_train).reshape(-1,1)
+emodel.fit(x_test)
+x_test = emodel.predict(x_test).reshape(-1,1)
+clf_nn = MLPClassifier(hidden_layer_sizes=50, alpha=0.001, random_state=42, max_iter=2000)
+start = time.time()
+clf_nn.fit(x_train, y_train)
+end = time.time()
+print('GMM Training time: ', end-start)
+print('GMM Training accuracy: ', clf_nn.score(x_train, y_train))
+print('GMM Test accuracy: ', clf_nn.score(x_test, y_test))
 
 
 
