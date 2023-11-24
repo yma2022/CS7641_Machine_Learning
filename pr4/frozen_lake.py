@@ -35,7 +35,7 @@ def Frozen_Lake_Experiments():
 		best_policy,k = policy_iteration(env, gamma = g)
 		end=time.time()
 		print('policy iteration finish for gamma: ', g)
-		plot_policy_map('Frozen Lake Policy Map Iteration '+ str(i) + ' (Policy Iteration) ' + 'Gamma: '+ str(g),best_policy.reshape(n,n),desc,colors_lake(),directions_lake())
+		plot_policy_map('Frozen Lake Policy Map Iteration '+ str(i) + ' (Policy Iteration) ' + 'Gamma '+ str(g),best_policy.reshape(n,n),desc,colors_lake(),directions_lake())
 		scores = evaluate_policy(env, best_policy, gamma = g, desc=desc, custom=custom_frozen_lake)
 		print('policy evaluation finish for gamma: ', g)		
 		gamma_arr[i]= g
@@ -46,26 +46,26 @@ def Frozen_Lake_Experiments():
 	
 	plt.plot(gamma_arr, time_array)
 	plt.xlabel('Gamma')
-	plt.title('Frozen Lake - Policy Iteration - Execution Time Analysis')
+	plt.title('Frozen Lake Policy Iteration Execution Time Analysis')
 	plt.ylabel('Execution Time (s)')
 	plt.grid()
-	plt.savefig('img/Frozen Lake - Policy Iteration - Execution Time Analysis.png')
+	plt.savefig('img/Frozen Lake Policy Iteration Execution Time Analysis.png')
 	plt.close()
 
 	plt.plot(gamma_arr,list_scores)
 	plt.xlabel('Gamma')
 	plt.ylabel('Average Rewards')
-	plt.title('Frozen Lake - Policy Iteration - Reward Analysis')
+	plt.title('Frozen Lake Policy Iteration Reward Analysis')
 	plt.grid()
-	plt.savefig('img/Frozen Lake - Policy Iteration - Reward Analysis.png')
+	plt.savefig('img/Frozen Lake Policy Iteration Reward Analysis.png')
 	plt.close()
 
 	plt.plot(gamma_arr,iters)
 	plt.xlabel('Gamma')
 	plt.ylabel('Iterations to Converge')
-	plt.title('Frozen Lake - Policy Iteration - Convergence Analysis')
+	plt.title('Frozen Lake Policy Iteration Convergence Analysis')
 	plt.grid()
-	plt.savefig('img/Frozen Lake - Policy Iteration - Convergence Analysis.png')
+	plt.savefig('img/Frozen Lake Policy Iteration Convergence Analysis.png')
 	plt.close()
 
 	
@@ -79,7 +79,7 @@ def Frozen_Lake_Experiments():
 		policy = extract_policy(env,best_value, gamma = g)
 		policy_score = evaluate_policy(env, policy, gamma=g, desc=desc, custom=custom_frozen_lake)
 		print('policy evaluation finish for gamma: ', g)
-		plot_policy_map('Frozen Lake Policy Map Iteration '+ str(i) + ' (Value Iteration) ' + 'Gamma: '+ str(g),policy.reshape(n,n),desc,colors_lake(),directions_lake())		
+		plot_policy_map('Frozen Lake Policy Map Iteration '+ str(i) + ' (Value Iteration) ' + 'Gamma '+ str(g),policy.reshape(n,n),desc,colors_lake(),directions_lake())		
 		gamma_arr[i]=g
 		iters[i]=k
 		list_scores[i]=np.mean(policy_score)
@@ -87,26 +87,26 @@ def Frozen_Lake_Experiments():
 
 	plt.plot(gamma_arr, time_array)
 	plt.xlabel('Gamma')
-	plt.title('Frozen Lake - Value Iteration - Execution Time Analysis')
+	plt.title('Frozen Lake Value Iteration Execution Time Analysis')
 	plt.ylabel('Execution Time (s)')
 	plt.grid()
-	plt.savefig('img/Frozen Lake - Value Iteration - Execution Time Analysis.png')
+	plt.savefig('img/Frozen Lake Value Iteration Execution Time Analysis.png')
 	plt.close()
 
 	plt.plot(gamma_arr,list_scores)
 	plt.xlabel('Gamma')
 	plt.ylabel('Average Rewards')
-	plt.title('Frozen Lake - Value Iteration - Reward Analysis')
+	plt.title('Frozen Lake Value Iteration Reward Analysis')
 	plt.grid()
-	plt.savefig('img/Frozen Lake - Value Iteration - Reward Analysis.png')
+	plt.savefig('img/Frozen Lake Value Iteration Reward Analysis.png')
 	plt.close()
 
 	plt.plot(gamma_arr,iters)
 	plt.xlabel('Gamma')
 	plt.ylabel('Iterations to Converge')
-	plt.title('Frozen Lake - Value Iteration - Convergence Analysis')
+	plt.title('Frozen Lake Value Iteration Convergence Analysis')
 	plt.grid()
-	plt.savefig('img/Frozen Lake - Value Iteration - Convergence Analysis.png')
+	plt.savefig('img/Frozen Lake Value Iteration Convergence Analysis.png')
 	plt.close()
 
 	
@@ -174,7 +174,7 @@ def Frozen_Lake_Experiments():
 		for state, action in enumerate(np.argmax(Q, axis=1)):
 			optimal[state] = action
 		# print(optimal)
-		plot_policy_map('Frozen Lake Policy Map Iteration '+ str(epsilon) + ' (Q Learning) ' + 'Epsilon: '+ str(epsilon),np.array(optimal).reshape(n,n),desc,colors_lake(),directions_lake())
+		plot_policy_map('Frozen Lake Policy Map Iteration '+ str(epsilon) + ' (Q Learning) ' + 'Epsilon '+ str(epsilon),np.array(optimal).reshape(n,n),desc,colors_lake(),directions_lake())
 
 		reward_array.append(rewards)
 		iter_array.append(iters)
@@ -208,9 +208,9 @@ def Frozen_Lake_Experiments():
 	plt.legend()
 	plt.xlabel('# of Episodes')
 	plt.grid()
-	plt.title('Frozen Lake - Q Learning - Rewards Analysis')
+	plt.title('Frozen Lake Q Learning Rewards Analysis')
 	plt.ylabel('Average Reward')
-	plt.savefig('img/Frozen Lake - Q Learning - Rewards Analysis.png')
+	plt.savefig('img/Frozen Lake Q Learning Rewards Analysis.png')
 	plt.close()
 
 
@@ -222,9 +222,9 @@ def Frozen_Lake_Experiments():
 	plt.legend()
 	plt.xlabel('# of Episodes')
 	plt.grid()
-	plt.title('Frozen Lake - Q Learning - Iterations Analysis')
+	plt.title('Frozen Lake Q Learning Iterations Analysis')
 	plt.ylabel('Average Iterations')
-	plt.savefig('img/Frozen Lake - Q Learning - Iterations Analysis.png')
+	plt.savefig('img/Frozen Lake Q Learning Iterations Analysis.png')
 	plt.close()
 			
 def colors_lake():

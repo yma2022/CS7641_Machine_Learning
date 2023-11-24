@@ -107,18 +107,18 @@ def Blackjack_Experiments():
 
     plt.plot(gamma_arr, time_array)
     plt.xlabel('Gamma')
-    plt.title('Blackjack - Policy Iteration - Execution Time Analysis')
+    plt.title('Blackjack Policy Iteration Execution Time Analysis')
     plt.ylabel('Execution Time (s)')
     plt.grid()
-    plt.savefig('img/Blackjack - Policy Iteration - Execution Time Analysis.png')
+    plt.savefig('img/Blackjack Policy Iteration Execution Time Analysis.png')
     plt.close()
 
     plt.plot(gamma_arr, list_scores)
     plt.xlabel('Gamma')
     plt.ylabel('Average Rewards')
-    plt.title('Blackjack - Policy Iteration - Reward Analysis')
+    plt.title('Blackjack Policy Iteration Reward Analysis')
     plt.grid()
-    plt.savefig('img/Blackjack - Policy Iteration - Reward Analysis.png')
+    plt.savefig('img/Blackjack Policy Iteration Reward Analysis.png')
     plt.close()
 
     plt.plot(gamma_arr, iters)
@@ -127,7 +127,7 @@ def Blackjack_Experiments():
     plt.ylim(0,10)
     plt.title('Blackjack - Policy Iteration - Convergence Analysis')
     plt.grid()
-    plt.savefig('img/Blackjack - Policy Iteration - Convergence Analysis.png')
+    plt.savefig('img/Blackjack Policy Iteration Convergence Analysis.png')
     plt.close()
 
     ### VALUE ITERATION ###
@@ -147,26 +147,26 @@ def Blackjack_Experiments():
 
     plt.plot(gamma_arr, time_array)
     plt.xlabel('Gammas')
-    plt.title('Blackjack - Value Iteration - Execution Time Analysis')
+    plt.title('Blackjack Value Iteration Execution Time Analysis')
     plt.ylabel('Execution Time (s)')
     plt.grid()
-    plt.savefig('img/Blackjack - Value Iteration - Execution Time Analysis.png')
+    plt.savefig('img/Blackjack Value Iteration Execution Time Analysis.png')
     plt.close()
 
     plt.plot(gamma_arr, list_scores)
     plt.xlabel('Gammas')
     plt.ylabel('Average Rewards')
-    plt.title('Blackjack - Value Iteration - Reward Analysis')
+    plt.title('Blackjack Value Iteration Reward Analysis')
     plt.grid()
-    plt.savefig('img/Blackjack - Value Iteration - Reward Analysis.png')
+    plt.savefig('img/Blackjack Value Iteration Reward Analysis.png')
     plt.close()
 
     plt.plot(gamma_arr, iters)
     plt.xlabel('Gammas')
     plt.ylabel('Iterations to Converge')
-    plt.title('Blackjack - Value Iteration - Convergence Analysis')
+    plt.title('Blackjack Value Iteration Convergence Analysis')
     plt.grid()
-    plt.savefig('img/Blackjack - Value Iteration - Convergence Analysis.png')
+    plt.savefig('img/Blackjack Value Iteration Convergence Analysis.png')
     plt.close()
 
     ### Q-LEARNING #####
@@ -254,9 +254,9 @@ def Blackjack_Experiments():
     plt.legend()
     plt.xlabel('# of Episodes')
     plt.grid()
-    plt.title('Blackjack - Q Learning - Rewards Analysis')
+    plt.title('Blackjack Q Learning Rewards Analysis')
     plt.ylabel('Average Reward')
-    plt.savefig('img/Blackjack - Q Learning - Rewards Analysis.png')
+    plt.savefig('img/Blackjack Q Learning Rewards Analysis.png')
     plt.close()
 
     plt.plot(range(0, len(iter_array[0]), size_array[0]), iters_averages_array[0], label='epsilon=0.1')
@@ -267,9 +267,9 @@ def Blackjack_Experiments():
     plt.legend()
     plt.xlabel('# of Episodes')
     plt.grid()
-    plt.title('Blackjack - Q Learning - Iterations Analysis')
+    plt.title('Blackjack Q Learning Iterations Analysis')
     plt.ylabel('Average Iterations')
-    plt.savefig('img/Blackjack - Q Learning - Iterations Analysis.png')
+    plt.savefig('img/Blackjack Q Learning Iterations Analysis.png')
     plt.close()
 
 def run_episode(blackjack, policy, gamma, render=False, desc=None):
