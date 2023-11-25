@@ -4,7 +4,7 @@ import time
 import matplotlib.pyplot as plt
 from gym.envs.toy_text.frozen_lake import generate_random_map
 from tqdm import tqdm
-from util import plot_blackjack_policy, decay_schedule
+from util import plot_blackjack_policy, decay_schedule, plot_policy_map
 from planner import extract_policy, policy_iteration, value_iteration
 import os
 import warnings
@@ -81,13 +81,12 @@ class Blackjack:
 
 def Blackjack_Experiments():
     blackjack = Blackjack()
-
+    print(blackjack.env.reset())
     time_array = [0] * 10
     gamma_arr = [0] * 10
     iters = [0] * 10
     list_scores = [0] * 10
     gammas = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]
-    print(blackjack.env.observation_space)
     ### POLICY ITERATION ####
     print('POLICY ITERATION WITH BLACKJACK')
     for i, g in enumerate(gammas):
@@ -96,8 +95,8 @@ def Blackjack_Experiments():
         end = time.time()
         print('policy iteration finish for gamma:', g)
         scores = evaluate_policy(blackjack, best_policy, gamma=g)
-        print(len(best_policy))
-        # plot_blackjack_policy(best_policy, f'Optimal Policy for Gamma={g}')
+        # print(best_policy)
+        plot_blackjack_policy(blackjack, best_policy.reshape(29,10), 'Blackjack Policy Map Iteration ' + str(i) + ' (Policy Iteration) ' + 'Gamma ' + str(g), directions_blackjack())
         print('policy evaluation finish for gamma:', g)
         gamma_arr[i] = g
         list_scores[i] = np.mean(scores)
@@ -138,6 +137,7 @@ def Blackjack_Experiments():
         end = time.time()
         print('value iteration finish for gamma: ', g)
         policy = extract_policy(blackjack, best_value, gamma=g)
+        plot_blackjack_policy(blackjack, policy.reshape(29,10), 'Blackjack Policy Map Iteration ' + str(i) + ' (Value Iteration) ' + 'Gamma ' + str(g), directions_blackjack())
         policy_score = evaluate_policy(blackjack, policy, gamma=g)
         print('policy evaluation finish for gamma: ', g)
         gamma_arr[i] = g
@@ -188,7 +188,7 @@ def Blackjack_Experiments():
         optimal = [0] * blackjack.n_states
         alpha = 0.1
         gamma = 0.9
-        episodes = 20000
+        episodes = 30000
         epsilons = decay_schedule(epsilon, 0.1, 0.9, episodes)
         alphas = decay_schedule(alpha, 0.01, 0.9, episodes)
         for episode in tqdm(range(episodes), leave=False):
@@ -224,6 +224,8 @@ def Blackjack_Experiments():
         for state, action in enumerate(np.argmax(Q, axis=1)):
             optimal[state] = action
         # print(optimal)
+        # print(optimal)
+        plot_blackjack_policy(blackjack, np.array(optimal).reshape(29,10), 'Blackjack Policy Map Iteration '+ str(epsilon) + ' (Q Learning) ' + 'Epsilon '+ str(epsilon), directions_blackjack())
         reward_array.append(rewards)
         iter_array.append(iters)
         Q_array.append(Q)
@@ -252,6 +254,7 @@ def Blackjack_Experiments():
     plt.plot(range(0, len(reward_array[3]), size_array[3]), rewards_averages_array[3], label='epsilon=0.7')
     plt.plot(range(0, len(reward_array[4]), size_array[4]), rewards_averages_array[4], label='epsilon=0.9')
     plt.legend()
+
     plt.xlabel('# of Episodes')
     plt.grid()
     plt.title('Blackjack Q Learning Rewards Analysis')
@@ -293,13 +296,26 @@ def run_episode(blackjack, policy, gamma, render=False, desc=None):
         next_state = blackjack.convert_state_obs(next_state, done)
         
         # Summarize total reward
+        # print(reward)
         total_reward += (gamma ** step_idx * reward)
         # Update current state
         state = next_state
         step_idx += 1
     return total_reward
 
+def colors_lake():
+	return {
+		b'S': 'green',
+		b'F': 'skyblue',
+		b'H': 'black',
+		b'G': 'gold',
+	}
 
+def directions_blackjack():
+	return {
+		1: 'H',
+		0: 'S'
+	}
 
 
 def evaluate_policy(blackjack, policy, gamma, n=1000, desc=None):

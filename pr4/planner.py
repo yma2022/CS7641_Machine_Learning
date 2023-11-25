@@ -33,7 +33,7 @@ def run_episode(env, policy, gamma, render=False, desc=None, custom=None):
 	return total_reward
 
 
-def evaluate_policy(env, policy, gamma, n=1000, desc=None, custom=None):
+def evaluate_policy(env, policy, gamma, n=100, desc=None, custom=None):
     scores = [run_episode(env, policy, gamma, False, desc, custom) for _ in range(n)]
     return np.mean(scores)
 

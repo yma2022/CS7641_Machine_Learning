@@ -129,7 +129,7 @@ def Frozen_Lake_Experiments():
 		optimal=[0]*env.observation_space.n
 		alpha = 0.1
 		gamma = 0.9
-		episodes = 20000
+		episodes = 30000
 		epsilons = decay_schedule(epsilon, 0.1, 0.9, episodes)
 		alphas = decay_schedule(alpha, 0.01, 0.9, episodes)
 		for episode in tqdm(range(episodes), leave=False):
