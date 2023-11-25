@@ -11,7 +11,7 @@ from planner import evaluate_policy, extract_policy, policy_iteration, value_ite
 def Frozen_Lake_Experiments():
 	# 0 = left; 1 = down; 2 = right;  3 = up
 	np.random.seed(42)
-	n = 20
+	n = 4
 	custom_frozen_lake = generate_random_map(size=n)
 	frozen_lake = gym.make("FrozenLake-v1", is_slippery=False, desc= custom_frozen_lake)
 	print(frozen_lake.observation_space)
@@ -122,7 +122,7 @@ def Frozen_Lake_Experiments():
 	iters_averages_array = []
 	time_array = []
 	Q_array = []
-	for epsilon in [0.1, 0.3, 0.5, 0.7, 0.9]:
+	for epsilon in [0.0, 0.2, 0.4, 0.8, 1.0]:
 		Q = np.zeros((env.observation_space.n, env.action_space.n))
 		rewards = []
 		iters = []
