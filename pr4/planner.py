@@ -68,7 +68,8 @@ def compute_policy_v(env, policy, gamma):
 
 def policy_iteration(env, gamma):
 	policy = np.random.choice(len(env.P[0]), len(env.P))  
-	max_iters = 1000000
+	max_iters = 10000000
+	k = 0
 	for i in range(max_iters):
 		old_policy_v = compute_policy_v(env, policy, gamma)
 		new_policy = extract_policy(env,old_policy_v, gamma)

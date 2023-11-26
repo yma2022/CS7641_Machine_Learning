@@ -87,87 +87,91 @@ def Blackjack_Experiments():
     iters = [0] * 10
     list_scores = [0] * 10
     gammas = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]
-    ### POLICY ITERATION ####
-    print('POLICY ITERATION WITH BLACKJACK')
-    for i, g in enumerate(gammas):
-        st = time.time()
-        best_policy, k = policy_iteration(blackjack, gamma=g)
-        end = time.time()
-        print('policy iteration finish for gamma:', g)
-        scores = evaluate_policy(blackjack, best_policy, gamma=g)
-        # print(best_policy)
-        plot_blackjack_policy(blackjack, best_policy.reshape(29,10), 'Blackjack Policy Map Iteration ' + str(i) + ' (Policy Iteration) ' + 'Gamma ' + str(g), directions_blackjack())
-        print('policy evaluation finish for gamma:', g)
-        gamma_arr[i] = g
-        list_scores[i] = np.mean(scores)
-        iters[i] = k
-        time_array[i] = end - st
+    # ### POLICY ITERATION ####
+    # print('POLICY ITERATION WITH BLACKJACK')
+    # for i, g in enumerate(gammas):
+    #     st = time.time()
+    #     best_policy, k = policy_iteration(blackjack, gamma=g)
+    #     end = time.time()
+    #     print('policy iteration finish for gamma:', g)
+    #     scores = evaluate_policy(blackjack, best_policy, gamma=g)
+    #     # print(best_policy)
+    #     plot_blackjack_policy(blackjack, best_policy.reshape(29,10), 'Blackjack Policy Map Iteration ' + str(i) + ' (Policy Iteration) ' + 'Gamma ' + str(g), directions_blackjack())
+    #     print('policy evaluation finish for gamma:', g)
+    #     gamma_arr[i] = g
+    #     list_scores[i] = np.mean(scores)
+    #     iters[i] = k
+    #     time_array[i] = end - st
+        
+    #     print('Number of iterations to converge: ', k, 'Total execution time:', end-st, 'Average reward: ', np.mean(scores), 'Gamma: ', g)
 
 
-    plt.plot(gamma_arr, time_array)
-    plt.xlabel('Gamma')
-    plt.title('Blackjack Policy Iteration Execution Time Analysis')
-    plt.ylabel('Execution Time (s)')
-    plt.grid()
-    plt.savefig('img/Blackjack Policy Iteration Execution Time Analysis.png')
-    plt.close()
+    # plt.plot(gamma_arr, time_array)
+    # plt.xlabel('Gamma')
+    # plt.title('Blackjack Policy Iteration Execution Time Analysis')
+    # plt.ylabel('Execution Time (s)')
+    # plt.grid()
+    # plt.savefig('img/Blackjack Policy Iteration Execution Time Analysis.png')
+    # plt.close()
 
-    plt.plot(gamma_arr, list_scores)
-    plt.xlabel('Gamma')
-    plt.ylabel('Average Rewards')
-    plt.title('Blackjack Policy Iteration Reward Analysis')
-    plt.grid()
-    plt.savefig('img/Blackjack Policy Iteration Reward Analysis.png')
-    plt.close()
+    # plt.plot(gamma_arr, list_scores)
+    # plt.xlabel('Gamma')
+    # plt.ylabel('Average Rewards')
+    # plt.title('Blackjack Policy Iteration Reward Analysis')
+    # plt.grid()
+    # plt.savefig('img/Blackjack Policy Iteration Reward Analysis.png')
+    # plt.close()
 
-    plt.plot(gamma_arr, iters)
-    plt.xlabel('Gamma')
-    plt.ylabel('Iterations to Converge')
-    plt.ylim(0,10)
-    plt.title('Blackjack - Policy Iteration - Convergence Analysis')
-    plt.grid()
-    plt.savefig('img/Blackjack Policy Iteration Convergence Analysis.png')
-    plt.close()
+    # plt.plot(gamma_arr, iters)
+    # plt.xlabel('Gamma')
+    # plt.ylabel('Iterations to Converge')
+    # plt.ylim(0,10)
+    # plt.title('Blackjack - Policy Iteration - Convergence Analysis')
+    # plt.grid()
+    # plt.savefig('img/Blackjack Policy Iteration Convergence Analysis.png')
+    # plt.close()
 
-    ### VALUE ITERATION ###
-    print('VALUE ITERATION WITH FROZEN LAKE')
-    for i, g in enumerate(gammas):
-        st = time.time()
-        best_value, k = value_iteration(blackjack, gamma=g)
-        end = time.time()
-        print('value iteration finish for gamma: ', g)
-        policy = extract_policy(blackjack, best_value, gamma=g)
-        plot_blackjack_policy(blackjack, policy.reshape(29,10), 'Blackjack Policy Map Iteration ' + str(i) + ' (Value Iteration) ' + 'Gamma ' + str(g), directions_blackjack())
-        policy_score = evaluate_policy(blackjack, policy, gamma=g)
-        print('policy evaluation finish for gamma: ', g)
-        gamma_arr[i] = g
-        iters[i] = k
-        list_scores[i] = np.mean(policy_score)
-        time_array[i] = end - st
+    # ### VALUE ITERATION ###
+    # print('VALUE ITERATION WITH FROZEN LAKE')
+    # for i, g in enumerate(gammas):
+    #     st = time.time()
+    #     best_value, k = value_iteration(blackjack, gamma=g)
+    #     end = time.time()
+    #     print('value iteration finish for gamma: ', g)
+    #     policy = extract_policy(blackjack, best_value, gamma=g)
+    #     plot_blackjack_policy(blackjack, policy.reshape(29,10), 'Blackjack Policy Map Iteration ' + str(i) + ' (Value Iteration) ' + 'Gamma ' + str(g), directions_blackjack())
+    #     policy_score = evaluate_policy(blackjack, policy, gamma=g)
+    #     print('policy evaluation finish for gamma: ', g)
+    #     gamma_arr[i] = g
+    #     iters[i] = k
+    #     list_scores[i] = np.mean(policy_score)
+    #     time_array[i] = end - st
+        
+    #     print('Number of iterations to converge: ', k, 'Total execution time:', end-st, 'Average reward: ', np.mean(scores), 'Gamma: ', g)
 
-    plt.plot(gamma_arr, time_array)
-    plt.xlabel('Gammas')
-    plt.title('Blackjack Value Iteration Execution Time Analysis')
-    plt.ylabel('Execution Time (s)')
-    plt.grid()
-    plt.savefig('img/Blackjack Value Iteration Execution Time Analysis.png')
-    plt.close()
+    # plt.plot(gamma_arr, time_array)
+    # plt.xlabel('Gammas')
+    # plt.title('Blackjack Value Iteration Execution Time Analysis')
+    # plt.ylabel('Execution Time (s)')
+    # plt.grid()
+    # plt.savefig('img/Blackjack Value Iteration Execution Time Analysis.png')
+    # plt.close()
 
-    plt.plot(gamma_arr, list_scores)
-    plt.xlabel('Gammas')
-    plt.ylabel('Average Rewards')
-    plt.title('Blackjack Value Iteration Reward Analysis')
-    plt.grid()
-    plt.savefig('img/Blackjack Value Iteration Reward Analysis.png')
-    plt.close()
+    # plt.plot(gamma_arr, list_scores)
+    # plt.xlabel('Gammas')
+    # plt.ylabel('Average Rewards')
+    # plt.title('Blackjack Value Iteration Reward Analysis')
+    # plt.grid()
+    # plt.savefig('img/Blackjack Value Iteration Reward Analysis.png')
+    # plt.close()
 
-    plt.plot(gamma_arr, iters)
-    plt.xlabel('Gammas')
-    plt.ylabel('Iterations to Converge')
-    plt.title('Blackjack Value Iteration Convergence Analysis')
-    plt.grid()
-    plt.savefig('img/Blackjack Value Iteration Convergence Analysis.png')
-    plt.close()
+    # plt.plot(gamma_arr, iters)
+    # plt.xlabel('Gammas')
+    # plt.ylabel('Iterations to Converge')
+    # plt.title('Blackjack Value Iteration Convergence Analysis')
+    # plt.grid()
+    # plt.savefig('img/Blackjack Value Iteration Convergence Analysis.png')
+    # plt.close()
 
     ### Q-LEARNING #####
     print('Q LEARNING WITH FROZEN LAKE')
@@ -187,7 +191,7 @@ def Blackjack_Experiments():
         iters = []
         optimal = [0] * blackjack.n_states
         alpha = 0.1
-        gamma = 0.9
+        gamma = 0.1
         episodes = 30000
         epsilons = decay_schedule(epsilon, 0.1, 0.9, episodes)
         alphas = decay_schedule(alpha, 0.01, 0.9, episodes)
