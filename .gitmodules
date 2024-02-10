@@ -4,3 +4,6 @@
 [submodule "pr2"]
 	path = pr2
 	url = git@github.com:yma2022/CS7641_pr2.git
+[submodule "pr3"]
+	path = pr3
+	url = git@github.com:yma2022/CS7641_pr3.git
