@@ -1,5 +1,5 @@
 # CS7641 GaTech Machine Learning Projects
-
+Refer to a demo on some of the [interesting outcomes](https://yma2022.github.io/projects/1_project/).
 ## Project 1 Supervised Learning
 
 You should implement five learning algorithms. They are:
